@@ -364,7 +364,9 @@ AEST = timezone(timedelta(hours=10))
 
 
 @pytest.fixture
-def client(hass: HomeAssistant) -> EverydayRewardsClient:
+async def client(
+    hass: HomeAssistant, aioclient_mock: AiohttpClientMocker
+) -> EverydayRewardsClient:
     """Return a client using Home Assistant's mocked session."""
     return EverydayRewardsClient(async_get_clientsession(hass))
 
@@ -2293,7 +2295,6 @@ from .services import async_setup_services
 and directly after the `PLATFORMS` line add:
 
 ```python
-
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
@@ -2382,7 +2383,10 @@ async def test_diagnostics_redacts_secrets(
     assert result["entry"]["data"]["name"] == REDACTED
     assert result["entry"]["options"][CONF_AUTO_BOOST] is True
     assert len(result["offers"]) == 4
-    assert result["last_run"]["boosted"] == ("Collect 3000 points", "Collect 600 points")
+    assert result["last_run"]["boosted"] == (
+        "Collect 3000 points",
+        "Collect 600 points",
+    )
     dumped = str(result)
     assert CARD not in dumped
     assert HASH not in dumped
