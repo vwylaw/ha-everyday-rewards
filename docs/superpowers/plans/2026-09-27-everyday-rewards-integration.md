@@ -781,6 +781,8 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 
 ### Task 2: Coordinator and integration setup
 
+> **Execution note:** HA imports `config_flow.py` whenever a config entry is set up, so this task's tests cannot pass until Task 3's `config_flow.py` exists. Do Task 3's test-then-implement steps before Task 2 Step 6, and commit Tasks 2 and 3 together.
+
 **Files:**
 - Create: `custom_components/everyday_rewards/coordinator.py`, `custom_components/everyday_rewards/manifest.json`, `custom_components/everyday_rewards/translations/en.json`
 - Modify: `custom_components/everyday_rewards/__init__.py` (replace the docstring-only file)

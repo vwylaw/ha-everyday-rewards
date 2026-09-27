@@ -1,0 +1,67 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add Everyday Rewards account",
+        "description": "Enter the 13-digit Everyday Rewards card number. Anyone with this number can boost offers on the account, so treat it like a password.",
+        "data": {
+          "card_number": "Card number",
+          "name": "Name"
+        },
+        "data_description": {
+          "name": "Optional. Defaults to the first name on the account."
+        }
+      }
+    },
+    "error": {
+      "invalid_card_format": "The card number must be 13 digits.",
+      "invalid_card": "Everyday Rewards did not recognise this card number.",
+      "cannot_connect": "Could not connect to Everyday Rewards.",
+      "unknown": "Unexpected error."
+    },
+    "abort": {
+      "already_configured": "This account is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval_hours": "Check for new offers every (hours)",
+          "auto_boost": "Automatically boost new offers"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "available_offers": { "name": "Available offers" },
+      "boosted_offers": { "name": "Boosted offers" },
+      "last_boost": { "name": "Last boost" }
+    },
+    "button": {
+      "boost_all": { "name": "Boost all" }
+    },
+    "switch": {
+      "auto_boost": { "name": "Auto-boost" }
+    }
+  },
+  "issues": {
+    "api_access_denied": {
+      "title": "Everyday Rewards blocked access",
+      "description": "Everyday Rewards rejected the integration's requests. The unofficial API it relies on may have changed. Check for an update to the integration."
+    }
+  },
+  "services": {
+    "boost_all": {
+      "name": "Boost all offers",
+      "description": "Boost every available offer for the selected accounts, or for all accounts if none are selected.",
+      "fields": {
+        "device_id": {
+          "name": "Accounts",
+          "description": "Everyday Rewards account devices to boost."
+        }
+      }
+    }
+  }
+}
