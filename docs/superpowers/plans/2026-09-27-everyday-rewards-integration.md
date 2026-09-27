@@ -1730,7 +1730,9 @@ async def test_device(hass: HomeAssistant, aioclient_mock: AiohttpClientMocker) 
     """Each account is one service device named after the entry."""
     entry = await _setup(hass, aioclient_mock)
 
-    device = dr.async_get(hass).async_get_device(identifiers={(DOMAIN, entry.entry_id)})
+    device = dr.async_get(hass).async_get_device_by_identifier(
+        (DOMAIN, entry.entry_id), entry.entry_id
+    )
     assert device is not None
     assert device.name == "Alex"
     assert device.entry_type is dr.DeviceEntryType.SERVICE
@@ -2139,8 +2141,10 @@ async def test_two_accounts_have_separate_entities(
     alex, sam = await _setup_two(hass, aioclient_mock)
 
     registry = dr.async_get(hass)
-    assert registry.async_get_device(identifiers={(DOMAIN, alex.entry_id)})
-    assert registry.async_get_device(identifiers={(DOMAIN, sam.entry_id)})
+    assert registry.async_get_device_by_identifier(
+        (DOMAIN, alex.entry_id), alex.entry_id
+    )
+    assert registry.async_get_device_by_identifier((DOMAIN, sam.entry_id), sam.entry_id)
     assert hass.states.get("sensor.alex_available_offers").state == "2"
     assert hass.states.get("sensor.sam_available_offers").state == "2"
 
@@ -2150,7 +2154,9 @@ async def test_boost_all_targets_one_account(
 ) -> None:
     """Targeting a device boosts only that account."""
     _, sam = await _setup_two(hass, aioclient_mock)
-    device = dr.async_get(hass).async_get_device(identifiers={(DOMAIN, sam.entry_id)})
+    device = dr.async_get(hass).async_get_device_by_identifier(
+        (DOMAIN, sam.entry_id), sam.entry_id
+    )
 
     await hass.services.async_call(
         DOMAIN, SERVICE_BOOST_ALL, {ATTR_DEVICE_ID: device.id}, blocking=True
