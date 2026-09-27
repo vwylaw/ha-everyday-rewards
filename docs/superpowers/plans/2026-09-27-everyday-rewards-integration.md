@@ -2482,8 +2482,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 ```json
 {
   "name": "Everyday Rewards Auto-Boost",
-  "homeassistant": "2026.9.0",
-  "render_readme": true
+  "homeassistant": "2026.9.0"
 }
 ```
 
