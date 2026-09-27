@@ -19,6 +19,18 @@ FIRST_NAME_PATH = "/v1/oam/getFirstName"
 OFFERS_PATH = "/wx/v1/csl/customers/offers"
 BOOST_PATH = "/wx/v1/csl/customers/offers/boost"
 
+# Akamai in front of the offers endpoint stalls non-browser requests until they
+# time out, so present the same browser headers as the boost widget.
+WIDGET_ORIGIN = "https://activate.woolworthsrewards.com.au"
+BROWSER_HEADERS = {
+    "user-agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36"
+    ),
+    "origin": WIDGET_ORIGIN,
+    "referer": f"{WIDGET_ORIGIN}/",
+}
+
 STATUS_NOT_ACTIVATED = "NotActivated"
 STATUS_ACTIVATED = "Activated"
 
@@ -196,6 +208,7 @@ class EverydayRewardsClient:
                     method,
                     f"{API_BASE}{path}",
                     headers={
+                        **BROWSER_HEADERS,
                         "client_id": CLIENT_ID,
                         "accept": "application/json",
                         **headers,

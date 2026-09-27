@@ -96,6 +96,20 @@ async def test_get_offers(
     assert headers["client_id"] == CLIENT_ID
 
 
+async def test_requests_look_like_the_boost_widget(
+    client: EverydayRewardsClient, aioclient_mock: AiohttpClientMocker
+) -> None:
+    """Akamai stalls non-browser requests to the offers endpoint until timeout."""
+    aioclient_mock.get(OFFERS_URL, json=load_json("offers_mixed.json"))
+
+    await client.get_offers(HASH)
+
+    headers = aioclient_mock.mock_calls[0][3]
+    assert headers["user-agent"].startswith("Mozilla/5.0")
+    assert headers["origin"] == "https://activate.woolworthsrewards.com.au"
+    assert headers["referer"] == "https://activate.woolworthsrewards.com.au/"
+
+
 @pytest.mark.parametrize("status", [401, 403])
 async def test_get_offers_access_denied(
     client: EverydayRewardsClient, aioclient_mock: AiohttpClientMocker, status: int
