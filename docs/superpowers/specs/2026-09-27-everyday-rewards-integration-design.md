@@ -52,7 +52,8 @@ custom_components/everyday_rewards/
   button.py         boost-all button
   switch.py         auto-boost switch
   diagnostics.py    redacted diagnostics
-  const.py, manifest.json, strings.json, translations/en.json, services.yaml
+  services.py       boost_all service registration
+  const.py, manifest.json, translations/en.json, services.yaml
 ```
 
 ### `api.py` — `EverydayRewardsClient`
@@ -126,7 +127,7 @@ Device name = entry `name`. No card numbers, hashes or offer IDs in states or at
 
 ## Testing
 
-`pytest-homeassistant-custom-component` + `aioresponses`; no live network in tests.
+`pytest-homeassistant-custom-component` with its `aioclient_mock` fixture; no live network in tests.
 
 - Fixtures in `tests/fixtures/` derived from captured responses with identifiers replaced
   by fakes: `offers_mixed.json`, `boost_success.json`, `boost_already.json`,
