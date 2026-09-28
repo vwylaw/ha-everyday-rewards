@@ -84,6 +84,7 @@ async def test_get_offers(
         id="1001",
         status="NotActivated",
         heading="Collect 3000 points",
+        name="when you spend $60 or more at BIG W.",
         points=3000,
         ends=datetime(2026, 10, 4, 23, 59, 59, tzinfo=AEST),
         partners=("1060",),
@@ -108,6 +109,42 @@ async def test_requests_look_like_the_boost_widget(
     assert headers["user-agent"].startswith("Mozilla/5.0")
     assert headers["origin"] == "https://activate.woolworthsrewards.com.au"
     assert headers["referer"] == "https://activate.woolworthsrewards.com.au/"
+
+
+@pytest.mark.parametrize(
+    ("list_short", "expected"),
+    [
+        ("Woolworths Beanettes 400g*", "Woolworths Beanettes 400g"),
+        (
+            "when you spend $60 or more at Ampol Foodary.* Tap for T&Cs.",
+            "when you spend $60 or more at Ampol Foodary.",
+        ),
+        (
+            "on hundreds of participating products. Tap for T&Cs.",
+            "on hundreds of participating products.",
+        ),
+        ("  ", "Collect 80 points"),
+        (None, "Collect 80 points"),
+    ],
+)
+def test_offer_name(list_short: str | None, expected: str) -> None:
+    """The offer name comes from the short description, falling back to the heading."""
+    offer = Offer.from_json(
+        {
+            "id": "1",
+            "heading": "Collect 80 points",
+            "description": {"listShort": list_short},
+        }
+    )
+
+    assert offer.name == expected
+
+
+def test_offer_name_without_description() -> None:
+    """Offers with no description block use the heading as the name."""
+    assert Offer.from_json({"id": "1", "heading": "Collect 80 points"}).name == (
+        "Collect 80 points"
+    )
 
 
 @pytest.mark.parametrize("status", [401, 403])

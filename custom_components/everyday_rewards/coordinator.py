@@ -43,7 +43,7 @@ def scan_interval(entry: ConfigEntry) -> timedelta:
 
 @dataclass(frozen=True)
 class RunResult:
-    """Outcome of one boost pass. Tuples hold offer headings."""
+    """Outcome of one boost pass. Tuples hold offer names."""
 
     time: datetime
     boosted: tuple[str, ...]
@@ -143,7 +143,7 @@ class EverydayRewardsCoordinator(DataUpdateCoordinator[CoordinatorData]):
             run = RunResult(
                 time=now,
                 boosted=(),
-                failed=tuple(offer.heading for offer in boostable.values()),
+                failed=tuple(offer.name for offer in boostable.values()),
                 error=str(err),
             )
         else:
@@ -151,19 +151,19 @@ class EverydayRewardsCoordinator(DataUpdateCoordinator[CoordinatorData]):
             run = RunResult(
                 time=now,
                 boosted=tuple(
-                    offer.heading
+                    offer.name
                     for offer_id, offer in boostable.items()
                     if offer_id in succeeded
                 ),
                 failed=tuple(
-                    offer.heading
+                    offer.name
                     for offer_id, offer in boostable.items()
                     if offer_id not in succeeded
                 ),
             )
-            for heading in run.failed:
+            for name in run.failed:
                 _LOGGER.info(
-                    "Could not boost '%s' for %s", heading, self.config_entry.title
+                    "Could not boost '%s' for %s", name, self.config_entry.title
                 )
 
         self.hass.bus.async_fire(

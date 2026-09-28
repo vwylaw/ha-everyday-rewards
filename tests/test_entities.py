@@ -45,11 +45,13 @@ async def test_offer_sensors(
     assert available.state == "2"
     assert available.attributes["offers"] == [
         {
+            "name": "when you spend $60 or more at BIG W.",
             "heading": "Collect 3000 points",
             "points": 3000,
             "ends": "2026-10-04T23:59:59+10:00",
         },
         {
+            "name": "when you spend $60 or more at Ampol Foodary.",
             "heading": "Collect 600 points",
             "points": 600,
             "ends": "2026-10-04T23:59:59+10:00",

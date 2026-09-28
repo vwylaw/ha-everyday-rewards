@@ -55,6 +55,13 @@ class ApiError(EverydayRewardsError):
     """Unexpected status code or response body."""
 
 
+def _offer_name(data: dict[str, Any], heading: str) -> str:
+    """Return the offer's product or partner text, e.g. "Woolworths Beanettes 400g"."""
+    text = str((data.get("description") or {}).get("listShort") or "")
+    text = text.replace("Tap for T&Cs.", "").strip().rstrip("*").strip()
+    return text or heading
+
+
 def _parse_datetime(value: Any) -> datetime | None:
     if not isinstance(value, str):
         return None
@@ -84,6 +91,7 @@ class Offer:
     id: str
     status: str
     heading: str
+    name: str
     points: int | None
     ends: datetime | None
     partners: tuple[str, ...]
@@ -104,10 +112,12 @@ class Offer:
         """Build an offer from an API offer object."""
         reward = data.get("rewardValue") or {}
         activation = data.get("activation") or {}
+        heading = str(data.get("heading", ""))
         return cls(
             id=str(data["id"]),
             status=str(data.get("status", "")),
-            heading=str(data.get("heading", "")),
+            heading=heading,
+            name=_offer_name(data, heading),
             points=reward.get("points"),
             ends=_parse_datetime(activation.get("endDate")),
             partners=tuple(str(p) for p in data.get("divisionPartnerIds") or ()),

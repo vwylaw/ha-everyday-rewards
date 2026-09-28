@@ -33,7 +33,10 @@ async def test_auto_boost_boosts_available_offers(
     assert methods(aioclient_mock) == ["GET", "POST", "GET"]
     assert aioclient_mock.mock_calls[1][2] == {"offerIds": ["1001", "1002"]}
     run = entry.runtime_data.data.last_run
-    assert run.boosted == ("Collect 3000 points", "Collect 600 points")
+    assert run.boosted == (
+        "when you spend $60 or more at BIG W.",
+        "when you spend $60 or more at Ampol Foodary.",
+    )
     assert run.failed == ()
     assert run.error is None
     assert len(events) == 1
@@ -42,7 +45,10 @@ async def test_auto_boost_boosts_available_offers(
         "account": "Alex",
         "boosted": 2,
         "failed": 0,
-        "offers": ["Collect 3000 points", "Collect 600 points"],
+        "offers": [
+            "when you spend $60 or more at BIG W.",
+            "when you spend $60 or more at Ampol Foodary.",
+        ],
     }
 
 
@@ -73,8 +79,8 @@ async def test_partial_boost_failure(
     await setup_entry(hass, entry)
 
     run = entry.runtime_data.data.last_run
-    assert run.boosted == ("Collect 3000 points",)
-    assert run.failed == ("Collect 600 points",)
+    assert run.boosted == ("when you spend $60 or more at BIG W.",)
+    assert run.failed == ("when you spend $60 or more at Ampol Foodary.",)
 
 
 async def test_boost_request_fails(
@@ -91,7 +97,10 @@ async def test_boost_request_fails(
     assert methods(aioclient_mock) == ["GET", "POST"]
     run = entry.runtime_data.data.last_run
     assert run.boosted == ()
-    assert run.failed == ("Collect 3000 points", "Collect 600 points")
+    assert run.failed == (
+        "when you spend $60 or more at BIG W.",
+        "when you spend $60 or more at Ampol Foodary.",
+    )
     assert run.error is not None
 
 

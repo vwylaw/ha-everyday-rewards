@@ -37,6 +37,7 @@ def _offer_list(offers: Iterable[Offer]) -> dict[str, Any]:
     return {
         "offers": [
             {
+                "name": offer.name,
                 "heading": offer.heading,
                 "points": offer.points,
                 "ends": offer.ends.isoformat() if offer.ends else None,

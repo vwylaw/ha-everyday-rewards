@@ -19,7 +19,7 @@ Repeat step 3 for each account.
 
 | Entity | What it shows |
 |---|---|
-| `sensor.<name>_available_offers` | Offers not yet boosted; the `offers` attribute lists heading, points and end date |
+| `sensor.<name>_available_offers` | Offers not yet boosted; the `offers` attribute lists each offer's name (e.g. "Woolworths Beanettes 400g"), heading, points and end date |
 | `sensor.<name>_boosted_offers` | Boosted offers that are still running |
 | `sensor.<name>_last_boost` | When the last boost ran; attributes `boosted`, `failed`, `last_error` |
 | `button.<name>_boost_all` | Boost everything now |
@@ -35,7 +35,7 @@ Points balance is not available: the API only returns it after a full password l
 
 ## Event and automation example
 
-After each boost the integration fires `everyday_rewards_boosted` with `entry_id`, `account`, `boosted`, `failed` and `offers` (headings).
+After each boost the integration fires `everyday_rewards_boosted` with `entry_id`, `account`, `boosted`, `failed` and `offers` (the names of the offers boosted).
 
 ```yaml
 automation:

@@ -44,9 +44,10 @@ async def test_diagnostics_redacts_secrets(
     assert result["entry"]["data"]["name"] == REDACTED
     assert result["entry"]["options"][CONF_AUTO_BOOST] is True
     assert len(result["offers"]) == 4
+    assert result["offers"][0]["name"] == "when you spend $60 or more at BIG W."
     assert result["last_run"]["boosted"] == (
-        "Collect 3000 points",
-        "Collect 600 points",
+        "when you spend $60 or more at BIG W.",
+        "when you spend $60 or more at Ampol Foodary.",
     )
     dumped = str(result)
     assert CARD not in dumped

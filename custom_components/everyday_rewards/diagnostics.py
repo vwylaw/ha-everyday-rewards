@@ -20,15 +20,17 @@ async def async_get_config_entry_diagnostics(
 ) -> dict[str, Any]:
     """Return diagnostics with account identifiers removed."""
     data = entry.runtime_data.data
-    return async_redact_data(
-        {
-            "entry": {
+    return {
+        # Only the entry holds account identifiers; offer "name" fields are not
+        # personal and must stay readable.
+        "entry": async_redact_data(
+            {
                 "title": entry.title,
                 "data": dict(entry.data),
                 "options": dict(entry.options),
             },
-            "offers": [asdict(offer) for offer in data.offers],
-            "last_run": asdict(data.last_run) if data.last_run else None,
-        },
-        TO_REDACT,
-    )
+            TO_REDACT,
+        ),
+        "offers": [asdict(offer) for offer in data.offers],
+        "last_run": asdict(data.last_run) if data.last_run else None,
+    }
