@@ -1,0 +1,8 @@
+boost_all:
+  fields:
+    device_id:
+      required: false
+      selector:
+        device:
+          integration: everyday_rewards
+          multiple: true

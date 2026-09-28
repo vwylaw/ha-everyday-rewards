@@ -1,0 +1,12 @@
+{
+  "domain": "everyday_rewards",
+  "name": "Everyday Rewards Auto-Boost",
+  "codeowners": ["@vwylaw"],
+  "config_flow": true,
+  "documentation": "https://github.com/vwylaw/ha-everyday-rewards",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/vwylaw/ha-everyday-rewards/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

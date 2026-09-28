@@ -364,7 +364,9 @@ AEST = timezone(timedelta(hours=10))
 
 
 @pytest.fixture
-def client(hass: HomeAssistant) -> EverydayRewardsClient:
+async def client(
+    hass: HomeAssistant, aioclient_mock: AiohttpClientMocker
+) -> EverydayRewardsClient:
     """Return a client using Home Assistant's mocked session."""
     return EverydayRewardsClient(async_get_clientsession(hass))
 
@@ -778,6 +780,8 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 ---
 
 ### Task 2: Coordinator and integration setup
+
+> **Execution note:** HA imports `config_flow.py` whenever a config entry is set up, so this task's tests cannot pass until Task 3's `config_flow.py` exists. Do Task 3's test-then-implement steps before Task 2 Step 6, and commit Tasks 2 and 3 together.
 
 **Files:**
 - Create: `custom_components/everyday_rewards/coordinator.py`, `custom_components/everyday_rewards/manifest.json`, `custom_components/everyday_rewards/translations/en.json`
@@ -1726,7 +1730,9 @@ async def test_device(hass: HomeAssistant, aioclient_mock: AiohttpClientMocker) 
     """Each account is one service device named after the entry."""
     entry = await _setup(hass, aioclient_mock)
 
-    device = dr.async_get(hass).async_get_device(identifiers={(DOMAIN, entry.entry_id)})
+    device = dr.async_get(hass).async_get_device_by_identifier(
+        (DOMAIN, entry.entry_id), entry.entry_id
+    )
     assert device is not None
     assert device.name == "Alex"
     assert device.entry_type is dr.DeviceEntryType.SERVICE
@@ -2135,8 +2141,10 @@ async def test_two_accounts_have_separate_entities(
     alex, sam = await _setup_two(hass, aioclient_mock)
 
     registry = dr.async_get(hass)
-    assert registry.async_get_device(identifiers={(DOMAIN, alex.entry_id)})
-    assert registry.async_get_device(identifiers={(DOMAIN, sam.entry_id)})
+    assert registry.async_get_device_by_identifier(
+        (DOMAIN, alex.entry_id), alex.entry_id
+    )
+    assert registry.async_get_device_by_identifier((DOMAIN, sam.entry_id), sam.entry_id)
     assert hass.states.get("sensor.alex_available_offers").state == "2"
     assert hass.states.get("sensor.sam_available_offers").state == "2"
 
@@ -2146,7 +2154,9 @@ async def test_boost_all_targets_one_account(
 ) -> None:
     """Targeting a device boosts only that account."""
     _, sam = await _setup_two(hass, aioclient_mock)
-    device = dr.async_get(hass).async_get_device(identifiers={(DOMAIN, sam.entry_id)})
+    device = dr.async_get(hass).async_get_device_by_identifier(
+        (DOMAIN, sam.entry_id), sam.entry_id
+    )
 
     await hass.services.async_call(
         DOMAIN, SERVICE_BOOST_ALL, {ATTR_DEVICE_ID: device.id}, blocking=True
@@ -2293,7 +2303,6 @@ from .services import async_setup_services
 and directly after the `PLATFORMS` line add:
 
 ```python
-
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
@@ -2382,7 +2391,10 @@ async def test_diagnostics_redacts_secrets(
     assert result["entry"]["data"]["name"] == REDACTED
     assert result["entry"]["options"][CONF_AUTO_BOOST] is True
     assert len(result["offers"]) == 4
-    assert result["last_run"]["boosted"] == ("Collect 3000 points", "Collect 600 points")
+    assert result["last_run"]["boosted"] == (
+        "Collect 3000 points",
+        "Collect 600 points",
+    )
     dumped = str(result)
     assert CARD not in dumped
     assert HASH not in dumped
@@ -2470,8 +2482,7 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 ```json
 {
   "name": "Everyday Rewards Auto-Boost",
-  "homeassistant": "2026.9.0",
-  "render_readme": true
+  "homeassistant": "2026.9.0"
 }
 ```
 

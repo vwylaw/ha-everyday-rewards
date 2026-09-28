@@ -1,0 +1,4 @@
+[
+  {"success": true, "offer": {"id": "1001"}, "code": 200},
+  {"success": false, "offer": {"id": "1002"}, "code": 400, "isCannotBeBoosted": true}
+]

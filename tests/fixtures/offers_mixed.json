@@ -1,0 +1,137 @@
+{
+  "offers": [
+    {
+      "offerType": "OTHER",
+      "id": "1001",
+      "status": "NotActivated",
+      "offerStatus": "NotActivated",
+      "utcUserBoostedAt": null,
+      "campaignId": "90000001",
+      "divisionPartnerIds": [
+        "1060"
+      ],
+      "rewardValue": {
+        "points": 3000,
+        "value": 3000,
+        "type": "points_fixed",
+        "limitType": "EXACT",
+        "display": "3000"
+      },
+      "activation": {
+        "startDate": "2026-09-14T00:00:00+10:00",
+        "endDate": "2026-10-04T23:59:59+10:00"
+      },
+      "cta": {
+        "dateMessage": "Ends 4 Oct",
+        "label": "Boost"
+      },
+      "minimumSpend": 6000,
+      "heading": "Collect 3000 points",
+      "description": {
+        "listShort": "when you spend $60 or more at BIG W.* Tap for T&Cs.",
+        "list": "when you spend $60 or more at BIG W.* Tap for T&Cs.",
+        "detailed": "<p>when you spend $60 or more at BIG W.* Tap for T&Cs.</p>"
+      }
+    },
+    {
+      "offerType": "OTHER",
+      "id": "1002",
+      "status": "NotActivated",
+      "offerStatus": "NotActivated",
+      "utcUserBoostedAt": null,
+      "campaignId": "90000002",
+      "divisionPartnerIds": [
+        "2010"
+      ],
+      "rewardValue": {
+        "points": 600,
+        "value": 600,
+        "type": "points_fixed",
+        "limitType": "EXACT",
+        "display": "600"
+      },
+      "activation": {
+        "startDate": "2026-09-21T00:00:00+10:00",
+        "endDate": "2026-10-04T23:59:59+10:00"
+      },
+      "cta": {
+        "dateMessage": "Ends 4 Oct",
+        "label": "Boost"
+      },
+      "minimumSpend": 6000,
+      "heading": "Collect 600 points",
+      "description": {
+        "listShort": "when you spend $60 or more at Ampol Foodary.* Tap for T&Cs.",
+        "list": "when you spend $60 or more at Ampol Foodary.* Tap for T&Cs.",
+        "detailed": "<p>when you spend $60 or more at Ampol Foodary.* Tap for T&Cs.</p>"
+      }
+    },
+    {
+      "offerType": "TIGER",
+      "id": "1003",
+      "status": "Activated",
+      "offerStatus": "Activated",
+      "utcUserBoostedAt": "2026-09-22T23:23:29.962Z",
+      "campaignId": "90000003",
+      "divisionPartnerIds": [
+        "1005",
+        "1030"
+      ],
+      "rewardValue": {
+        "points": 100,
+        "value": 100,
+        "type": "points_fixed",
+        "limitType": "EXACT",
+        "display": "100"
+      },
+      "activation": {
+        "startDate": "2026-09-23T00:00:00+10:00",
+        "endDate": "2026-09-29T23:59:59+10:00"
+      },
+      "cta": {
+        "dateMessage": "Ends 29 Sep",
+        "label": "Shop"
+      },
+      "minimumSpend": 0,
+      "heading": "Collect 100 points",
+      "description": {
+        "listShort": "Woolworths Beanettes 400g*",
+        "list": "Woolworths Beanettes 400g*",
+        "detailed": "<p>Woolworths Beanettes 400g*</p>"
+      }
+    },
+    {
+      "offerType": "TIGER",
+      "id": "1004",
+      "status": "Expired",
+      "offerStatus": "Expired",
+      "utcUserBoostedAt": null,
+      "campaignId": "90000004",
+      "divisionPartnerIds": [
+        "1005"
+      ],
+      "rewardValue": {
+        "points": 80,
+        "value": 80,
+        "type": "points_fixed",
+        "limitType": "EXACT",
+        "display": "80"
+      },
+      "activation": {
+        "startDate": "2026-09-09T00:00:00+10:00",
+        "endDate": "2026-09-20T23:59:59+10:00"
+      },
+      "cta": {
+        "dateMessage": "Ended",
+        "label": "Ended"
+      },
+      "minimumSpend": 0,
+      "heading": "Collect 80 points",
+      "description": {
+        "listShort": "Woolworths Australian Kale Bunch*",
+        "list": "Woolworths Australian Kale Bunch*",
+        "detailed": "<p>Woolworths Australian Kale Bunch*</p>"
+      }
+    }
+  ]
+}
